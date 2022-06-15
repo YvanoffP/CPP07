@@ -14,8 +14,6 @@ public:
     Array<T>( const unsigned int size ): _size(size)
     {
         std::cout << "Size constructor called" << std::endl;
-        if (size < 0)
-            throw std::overflow_error("Index out of bouds");
         this->_array = new T[size];
     }
     Array<T>( const Array<T> &src )
@@ -45,7 +43,7 @@ public:
     }
     T &operator[]( const int index ) const
     {
-        if (index >= this->_size || index < 0)
+        if (index >= this->_size)
             throw std::overflow_error("Index out of bounds");
         return (this->_array[index]);
     }
