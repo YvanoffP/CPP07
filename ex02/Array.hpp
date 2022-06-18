@@ -11,15 +11,14 @@ public:
     {
         std::cout << "Empty constructor called" << std::endl;
     }
-    Array<T>( const unsigned int size ): _size(size)
+    Array<T>( const unsigned int size ): _size(size), _array(new T[size])
     {
         std::cout << "Size constructor called" << std::endl;
-        this->_array = new T[size];
     }
-    Array<T>( const Array<T> &src )
+    Array<T>( const Array<T> &src ): _array(NULL)
     {
-        std::cout << "Copy constructor called" << std::endl;
         *this = src;
+        std::cout << "Copy constructor called" << std::endl;
     }
     ~Array<T>( void )
     {
@@ -58,8 +57,5 @@ private:
     int _size;
     T   *_array;
 };
-
-template<typename T>
-std::ostream &operator<<( std::ostream &ostr, const Array<T> &instance );
 
 #endif
