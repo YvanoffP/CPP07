@@ -1,24 +1,57 @@
-SRCS			= main.cpp
-OBJS			= $(SRCS:.cpp=.o)
+NAME = template
+NAME_e = template_eval
 
-CXX				= g++-11
-RM				= rm -f
-CXXFLAGS		= -Wall -Wextra -Werror -pedantic -I.
-CPP_FLAGS       = -std=c++98
+SRCS =	main.cpp
+SRCSe = main_eval.cpp
 
-NAME			= temp
+CC = g++-11
+FLAGS = -Wall -Wextra -Werror -pedantic
+CPP_FLAGS = -std=c++98
 
-all:			$(NAME)
+OBJS = $(SRCS:.cpp=.o)
+OBJSe = $(SRCSe:.cpp=.o)
 
-$(NAME):		$(OBJS)
-				$(CXX) $(CXXFLAGS) $(CPP_FLAGS) -o $(NAME) $(OBJS)
+Y = "\033[33m"
+R = "\033[31m"
+G = "\033[32m"
+B = "\033[34m"
+X = "\033[0m"
+UP = "\033[A"
+CUT = "\033[K"
+
+all: $(NAME)
+
+%.o: %.cpp
+			@echo $(Y)Compiling [$<]...$(X)
+			@$(CC) $(FLAGS) $(CPP_FLAGS) -c $< -o $@
+			@printf $(UP)$(CUT)
+
+$(NAME) :	$(OBJS)
+			@echo $(Y)Compiling [$(SRCS)]...$(X)
+			@echo $(G)Finished [$(SRCS)]$(X)
+			@echo
+			@echo $(Y)Compiling [$(NAME)]...$(X)
+			@$(CC) $(FLAGS) $(CPP_FLAGS) -o $(NAME) $(OBJS)
+			@echo $(G)Finished [$(NAME)]$(X)
+
+$(NAME_e) : $(OBJSe)
+			@echo $(Y)Compiling [$(SRCSe)]...$(X)
+			@echo $(G)Finished [$(SRCSe)]$(X)
+			@echo
+			@echo $(Y)Compiling [$(NAME_e)]...$(X)
+			@$(CC) $(FLAGS) $(CPP_FLAGS) -o $(NAME_e) $(OBJSe)
+			@echo $(G)Finished [$(NAME_e)]$(X)
+
+eval: $(NAME_e)
 
 clean:
-				$(RM) $(OBJS)
+			@rm -rf $(OBJS) $(OBJSe)
+			@echo $(R)Removed [$(OBJS)][$(OBJSe)]$(X)
 
-fclean:			clean
-				$(RM) $(NAME)
+fclean: clean
+			@rm -rf $(NAME) $(NAME_e)
+			@echo $(R)Removed [$(NAME)][$(NAME_e)]$(X)
 
-re:				fclean $(NAME)
+re : fclean all
 
-.PHONY:			all clean fclean re testR
+.PHONY: all clean fclean re eval
