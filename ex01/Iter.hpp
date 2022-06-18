@@ -16,7 +16,7 @@ void iter(const T *tab, const int size, void (*f)(const T &x))
 }
 
 template< typename T >
-void print ( T const & i )
+void display ( T const & i )
 {
 	std::cout << i << std::endl;
 	return;
